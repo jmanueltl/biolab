@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-may-2016 18:45:16 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Detallecita" table="detallecita" catalog="laboratorio" optimistic-lock="version">
+        <composite-id name="id" class="modelo.DetallecitaId">
+            <key-property name="idDetalleCita" type="int">
+                <column name="idDetalleCita" />
+            </key-property>
+            <key-property name="idCita" type="int">
+                <column name="idCita" />
+            </key-property>
+        </composite-id>
+        <many-to-one name="cita" class="modelo.Cita" update="false" insert="false" fetch="select">
+            <column name="idCita" not-null="true" />
+        </many-to-one>
+        <many-to-one name="examen" class="modelo.Examen" fetch="select">
+            <column name="idExamen" not-null="true" />
+        </many-to-one>
+        <many-to-one name="resultado" class="modelo.Resultado" fetch="select">
+            <column name="Resultado_idResultado" />
+        </many-to-one>
+    </class>
+</hibernate-mapping>

@@ -1,0 +1,33 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 28-may-2016 18:45:16 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Examen" table="examen" catalog="laboratorio" optimistic-lock="version">
+        <id name="idExamen" type="java.lang.Integer">
+            <column name="idExamen" />
+            <generator class="identity" />
+        </id>
+        <many-to-one name="tipoexamen" class="modelo.Tipoexamen" fetch="select">
+            <column name="idTipoExamen" not-null="true" />
+        </many-to-one>
+        <property name="nombreExam" type="string">
+            <column name="nombreExam" length="45" />
+        </property>
+        <property name="rangoMin" type="string">
+            <column name="rangoMin" length="45" />
+        </property>
+        <property name="rangoMax" type="string">
+            <column name="rangoMax" length="45" />
+        </property>
+        <property name="unidad" type="string">
+            <column name="unidad" length="45" />
+        </property>
+        <set name="detallecitas" table="detallecita" inverse="true" lazy="true" fetch="select">
+            <key>
+                <column name="idExamen" not-null="true" />
+            </key>
+            <one-to-many class="modelo.Detallecita" />
+        </set>
+    </class>
+</hibernate-mapping>
