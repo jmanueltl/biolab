@@ -21,7 +21,7 @@
                 <img src="<%=request.getContextPath()%>/images/logo3.jpg" />
         </div>
         <div>
-                <img src="<%=request.getContextPath()%>/images/imagen1.jpg" width="100%" height="550px"/>
+                <img src="<%=request.getContextPath()%>/images/imagen1.jpg" width="100%" height="100%"/>
         </div>
         <div class="form1" >
             <form id="form" method="post" action="<%=request.getContextPath()%>/ControladorLogin?action=INICIAR_SESION" /> 
