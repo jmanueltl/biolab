@@ -436,6 +436,40 @@ span {
 	text-align: center;
 	margin: 1em 0em;
 }
+/* para habilitar y deshabilitar las opciones*/
+.not-active {
+   pointer-events: none;
+   cursor: default;
+}
+.not-active h4 {
+    color: #888;
+}
+.not-active i.rest {
+    width: 106px;
+	height: 106px;
+	background: url(../images/img-sprite3.png)no-repeat -127px -6px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.not-active i.beec {
+    width: 106px;
+	height: 106px;
+	background: url(../images/img-sprite3.png)no-repeat -247px -6px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.not-active i.ca {
+    width: 106px;
+	height: 106px;
+	background: url(../images/img-sprite3.png)no-repeat -367px -6px;
+	display: inline-block;
+	vertical-align: middle;
+}
+.yes-active p {
+    color: #0000FF;
+}
+
+
 i.fligh {
 	width: 106px;
 	height: 106px;

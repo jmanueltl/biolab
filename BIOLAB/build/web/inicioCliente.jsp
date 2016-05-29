@@ -1,6 +1,6 @@
 <%-- 
-    Document   : inicio
-    Created on : 28-may-2016, 22:26:46
+    Document   : inicioCliente
+    Created on : 29-may-2016, 6:12:53
     Author     : jack
 --%>
 
@@ -52,21 +52,21 @@
                 <p>A traves de esta opcion usted puede llenar un formulario consignando sus datos para poder hacer la reserva de su cita a traves de nuestro sistema</p>
             </div>
             </a>
-            <a href="" class="not-active">
+            <a href="" class="yes-active">
             <div class="col-md-3 resturants">
                 <i class="rest"> </i>
                 <h4> Consulte sus Citas</h4>
                 <p>Consulte el estado de sus citas para saber si la fecha solicitada ha sido aceptada o existen otros horarios disponibles para su atencion</p>
             </div>
             </a>
-            <a href="" class="not-active">
+            <a href="" class="yes-active">
             <div class="col-md-3 beech">
                 <i class="beec"> </i>
                 <h4>Resultados Online</h4>
                 <p>Con esta opcion usted puede visualizar los resultados de su cita sin tener que acercarse a nuestras instalaciones</p>
             </div>
             </a>
-            <a href="" class="not-active">
+            <a href="" class="yes-active">
             <div class="col-md-3 cars">
                 <i class="ca"> </i>
                 <h4>Quejas o Sugerencias</h4>
