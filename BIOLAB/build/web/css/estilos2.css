@@ -13,21 +13,12 @@ header
     width: 1348px;
     background: #418AE9;
 }
-.cabecera
-{ 
-    
-    /*border-style: solid;
-    border-width:1px;*/
-    height: 150px;
-}
-.centro
-{    
-    height: 600px;
-}
+
+
 .centro2
 {   
     width: 1080px;
-    height: 350px;
+    height: 380px;
 
     position: relative;
     top:50px;
@@ -110,9 +101,8 @@ header
     
     
     width: 750px;
-    /*background: #F1F3F5;*/
-    background-image: url("img/fondoreserva1.jpg");
-    box-shadow: -1px 3px 30px 4px rgba(0,0,0,0.75);
+
+    background: #F1F3F5;
 }
 /*
 html { overflow-x:hidden; }*/
@@ -213,11 +203,6 @@ height: 80px;
     background: #2C9AE4;
     color:rgb(255,255,255);
 }
-#logo{
-  
-    width: 80px;
-    height: 150px;
-}
 #logindiv{
 
    
@@ -230,52 +215,6 @@ height: 80px;
     /*background: #DCF5F5;*/
 }
 
-#verExamen{
-    background:#BBBEC0;
-     color:rgb(255,255,255);
-     border-color:rgb(0,0,0);
-     border-style:solid;
-     border-width:1px;
-     width:300px;
-     position:relative;
-     left:50px;
-}
-#verExamen:hover{
-    background:#4D8BA9;
-     color:rgb(255,255,255);
-     border-color:#BBBEC0;
-     border-style:solid;
-     border-widt:1;
-     width:300px;
-     position:relative;
-     left:50px;
-}
-
-#listaExamen{
-border-style: solid;
-border-width: 1px;
-background: #E4EFF9;
-/*opacity: 0.8;*/
-    width:600px;
-    height: 350px;
-     position:absolute;
-     left:350px;
-     top:800px;
-     z-index: 2;
-
-}
-
-#eleccion{
-    position:relative;
-    left:890px;
-    top:-230px;
-    
-    color:rgb(0,0,0);
-    opacity: 0.8;
-    background: #D0E8FC;
-    font:bold 14px verdana;
-    box-shadow: -1px 3px 30px 4px rgba(0,0,0,0.75);
-}
 .no-activo {
    pointer-events: none;
    cursor: default;
@@ -287,32 +226,6 @@ background: #E4EFF9;
   font-size: 20px;*/
   padding: 10px 35px 10px 35px;
 }
-
-.input{
-    /*padding : 10px 0px 0px 0px;*/
-    width: 400px;
-}
-.input-date{
-    height: 25px;
-}
-.aviso{
-    position: absolute;
-    top:640px;
-    left: 890px;
-
-    width: 300px;
-}
-.superindice{
-    color: #0000FF;
-}
-
-p {
-    border-style: solid;
-    border-width: 1px;
-    padding : 10px 0px 0px 0px;
-    margin:0px;
-}
-
 
 aside
 {
@@ -326,23 +239,6 @@ footer
 	color: #fff;
 }
 
-/*******************/
-.table-striped>tbody>tr:nth-child(odd)>td, 
-      .table-striped>tbody>tr:nth-child(odd)>th {
-       background-color: #1E90FF;
-       color: rgb(255,255,255);
-      }
-      .table-striped>tbody>tr:nth-child(even)>td, 
-      .table-striped>tbody>tr:nth-child(even)>th {
-       background-color: #1E90FF;
-       color: rgb(255,255,255);
-      }
-      .table-striped>thead>tr>th {
-         background-color: #4D8BA9;
-         color: rgb(255,255,255);
-      }
-/********/
-
 #columna{
 overflow: auto;
 width: 50px;
@@ -350,4 +246,80 @@ height: 50px; /*establece la altura máxima, lo que no entre quedará por debajo
 }
 
 
-/********/
+/****Vicky****/
+
+.form1{
+    
+    position: absolute;
+    z-index:2;
+    top:60%;
+    left:50%;
+
+    width: 450px;
+    margin-left:-200px;
+    height: 350px;
+    margin-top:-150px;
+
+    background: rgba(255,255,255,0.8);
+
+    border-radius: 8px;
+}
+
+
+/*mas,......tecnologo*/
+
+#cerrar{
+    width: 540px;
+    height: 150px;
+    position:absolute;
+    top:11px;
+    left:675px;
+}
+
+/*secretaria*/
+.regCita{
+    
+    position: absolute;
+    z-index:2;
+    top:380px;
+    left:480px;
+
+    width: 300px;
+    margin-left:-200px;
+    height: 300px;
+    margin-top:-150px;
+
+    background: rgba(255,255,255,0.8);
+
+    border-radius: 15px;
+}
+
+.asigCita{
+    
+    position: absolute;
+    z-index:2;
+    top:380px;
+    left:950px;
+
+    width: 300px;
+    margin-left:-200px;
+    height: 300px;
+    margin-top:-150px;
+
+    background: rgba(255,255,255,0.8);
+
+    border-radius: 8px;
+}
+
+
+a.bot:hover .regCita{
+    width: 310px;
+}   
+
+a.bot:hover .asigCita{
+    width: 310px;
+}   
+
+
+
+

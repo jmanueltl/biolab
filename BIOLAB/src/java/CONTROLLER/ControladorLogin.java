@@ -51,8 +51,8 @@ public class ControladorLogin extends HttpServlet {
         
         UsuarioDAO dao = new UsuarioDAO();
         Usuario usuario= new Usuario();            
-        usuario.setLogin(request.getParameter("usu"));
-        usuario.setClave(request.getParameter("contra"));        
+        usuario.setLogin(request.getParameter("login"));
+        usuario.setClave(request.getParameter("clave"));        
         try{
             if(dao.validarUsuario(usuario)){        
                response.sendRedirect("pacienteLogueado.jsp");  
