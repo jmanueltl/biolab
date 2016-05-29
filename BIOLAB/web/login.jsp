@@ -30,9 +30,9 @@
                 <br/>
                 </div>                               
                 <center>
-                    <input id="txtUsuario"  value="" required="true" placeholder="Usuario" name="login"/>     
+                    <input  type="text" id="txtUsuario"  value="" required="true" placeholder="Usuario" name="login"/>     
                     <br/><br/><br/>
-                    <input  id="txtClave" value="" required="true" placeholder="Password" name="clave" />
+                    <input  type="password" id="txtClave" value="" required="true" placeholder="Password" name="clave" />
                     
                     <br/><br/><br/>        
                     <button type="submit" class="btn btn-primary" />Iniciar Sesión

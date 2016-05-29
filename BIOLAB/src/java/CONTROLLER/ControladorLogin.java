@@ -58,7 +58,7 @@ public class ControladorLogin extends HttpServlet {
                response.sendRedirect("pacienteLogueado.jsp");  
            }else{
                 System.out.println("NO COMO USUARIO");
-               response.sendRedirect("inicio.jsp");
+               response.sendRedirect("login.jsp");
            }
         }catch(Exception ex){
             System.out.println("ERROR : "+ex.getMessage());
