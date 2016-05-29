@@ -111,7 +111,7 @@ header
     
     width: 750px;
     /*background: #F1F3F5;*/
-    background-image: url("img/fondoreserva1.jpg");
+    background-image: url('../images/fondoreserva1.jpg');
     box-shadow: -1px 3px 30px 4px rgba(0,0,0,0.75);
 }
 /*
@@ -297,7 +297,7 @@ background: #E4EFF9;
 }
 .aviso{
     position: absolute;
-    top:640px;
+    top:350px;
     left: 890px;
 
     width: 300px;
