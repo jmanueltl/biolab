@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+"http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd">
+<!-- Generated 16-jun-2016 0:35:22 by Hibernate Tools 4.3.1 -->
+<hibernate-mapping>
+    <class name="modelo.Examen" table="examen" catalog="laboratorio" optimistic-lock="version">
+        <id name="idExamen" type="java.lang.Integer">
+            <column name="idExamen" />
+            <generator class="identity" />
+        </id>
+        <property name="nombre" type="string">
+            <column name="nombre" length="45" />
+        </property>
+        <property name="rangoMin" type="string">
+            <column name="rangoMin" length="45" />
+        </property>
+        <property name="rangoMax" type="string">
+            <column name="rangoMax" length="45" />
+        </property>
+        <property name="unidad" type="string">
+            <column name="unidad" length="45" />
+        </property>
+        <property name="idTipoExamen" type="java.lang.Integer">
+            <column name="idTipoExamen" />
+        </property>
+    </class>
+</hibernate-mapping>
