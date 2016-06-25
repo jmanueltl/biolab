@@ -13,6 +13,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 import dto.*;
+import java.util.ArrayList;
 import util.Utilitarios;
 
 /**
@@ -50,6 +51,41 @@ public class Dao {
         
         return existe;
     }
+    
+    public ArrayList<Cita> citasPaciente(int idPaciente){   
+             ArrayList<Cita> citas = new ArrayList<Cita>();
+            Cita c=new Cita();
+            Persona p = new Persona();
+        try {
+            
+            cn=con.conectar();
+            cs = cn.prepareCall("{call sp_MostrarCitas(?)}");
+            cs.setInt(1, idPaciente);
+            cs.execute();
+            rs=cs.getResultSet();
+            while(rs.next()){                
+                p.setDni(rs.getString(1));
+                p.setNombres(rs.getString(2));
+                p.setApellidos(rs.getString(3));
+                c.setFecha(String.valueOf(rs.getDate(4)));
+                c.setHora(String.valueOf(rs.getDate(5)));     
+                c.setP(p);
+                citas.add(c);
+            }
+            cs.close();
+            rs.close();
+            cn.close();
+            
+            
+            
+        } catch (SQLException ex) {
+            
+        }
+        
+        return citas;
+    }
+    
+    
     
     public void datosUsuario(Usuario usu){
     
