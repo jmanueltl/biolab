@@ -22,6 +22,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 
 /**
@@ -80,6 +81,7 @@ public class controlCita extends HttpServlet {
     }
     private void reservarCita(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        HttpSession respuesta = request.getSession(true);
         
         String nombres = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
@@ -91,8 +93,8 @@ public class controlCita extends HttpServlet {
         String[] tipoExamen = request.getParameterValues("tipoExamen");
         String fecha = request.getParameter("fecha");
         String hora = request.getParameter("hora");
-        String fechahora= fecha+" "+hora;
-        System.out.println(fechahora);
+        //String fechahora= fecha+" "+hora;
+        //System.out.println(fechahora);
         //Date dfechahora=castStringDate(fechahora);
         int existe_paciente=0;
         Persona paciente= new Persona();
@@ -115,12 +117,12 @@ public class controlCita extends HttpServlet {
             paciente.setIdPaciente(dao.existePaciente(dni));
         }
         System.out.println("id paciente: "+paciente.getIdPaciente());
-        
+        respuesta.setAttribute("sIdPaciente", paciente.getIdPaciente());
         //registrar la cita
-        cita.setFechaHora(fechahora);
+        cita.setFecha(fecha);
+        cita.setHora(hora);
         cita.setIdEstadoCita(1);
         cita.setIdPaciente(paciente.getIdPaciente());
-        
         dao.agregarCita(cita);
         cita.setIdCita(dao.ultimaCita());
         System.out.println("id cita: "+cita.getIdCita());

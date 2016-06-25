@@ -53,7 +53,7 @@
                 <p>A traves de esta opcion usted puede llenar un formulario consignando sus datos para poder hacer la reserva de su cita a traves de nuestro sistema</p>
             </div>
             </a>
-            <a href="" class="yes-active">
+            <a href="consultarCitas.jsp" class="yes-active">
             <div class="col-md-3 resturants">
                 <i class="rest"> </i>
                 <h4> Consulte sus Citas</h4>

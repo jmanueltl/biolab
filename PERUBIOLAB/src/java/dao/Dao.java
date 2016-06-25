@@ -13,9 +13,7 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 import dto.*;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import java.util.ArrayList;
 import util.Utilitarios;
 
 /**
@@ -31,7 +29,6 @@ public class Dao {
     private PreparedStatement ps;
     private Utilitarios util = new Utilitarios();
     
-    
     public int validar_Usuario(String usuario, String password){
         
         int existe=0;
@@ -45,26 +42,6 @@ public class Dao {
             cs.registerOutParameter(3, Types.INTEGER);
             cs.execute();
             existe=cs.getInt(3);
-            cs.close();
-            cn.close();
-            
-        } catch (SQLException ex) {
-            
-        }
-        
-        return existe;
-    }
-    public int existePaciente(String dni){
-        
-        int existe=0;
-        
-        try {    
-        	
-            cn=con.conectar();
-            cs = cn.prepareCall("{call existe_paciente(?)}");
-            cs.setString(1, dni);
-            cs.execute();
-            existe=cs.getInt(1);
             cs.close();
             cn.close();
             
@@ -96,7 +73,26 @@ public class Dao {
         }
         return idCita;
     }
-   
+    public int existePaciente(String dni){
+        
+        int existe=0;
+        
+        try {    
+        	
+            cn=con.conectar();
+            cs = cn.prepareCall("{call existe_paciente(?)}");
+            cs.setString(1, dni);
+            cs.execute();
+            existe=cs.getInt(1);
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+        
+        return existe;
+    }
     public void registrarPersona(Persona p){
         try {    
         	
@@ -116,41 +112,7 @@ public class Dao {
             
         }
     }
-   
-    public void agregarCita(Cita c){
-        
-        try {    
-             
-            cn=con.conectar();
-            cs = cn.prepareCall("{call agregar_cita(?,?,?)}");
-            cs.setString(1, c.getFechaHora());
-            cs.setInt(2, c.getIdEstadoCita());
-            cs.setInt(3, c.getIdPaciente());
-            cs.execute();
-            cs.close();
-            cn.close();
-            
-        } catch (SQLException ex) {
-            
-        }
-    }
-     public void agregarDetalleCita(Detallecita dc){
-        
-        try {    
-             
-            cn=con.conectar();
-            cs = cn.prepareCall("{call agregar_detalle_cita(?,?)}");
-            cs.setInt(1, dc.getIdCita());
-            cs.setInt(2, dc.getIdExamen());
-            cs.execute();
-            cs.close();
-            cn.close();
-            
-        } catch (SQLException ex) {
-            
-        }
-    }
-    public void datosPaciente(Persona per){
+   public void datosPaciente(Persona per){
         try {
             
             cn=con.conectar();
@@ -177,6 +139,39 @@ public class Dao {
         }
         
     }
+    public void agregarCita(Cita c){
+        
+        try {    
+             
+            cn=con.conectar();
+            cs = cn.prepareCall("{call agregar_cita(?,?,?)}");
+            cs.setString(1, c.getFecha()+" "+c.getHora());
+            cs.setInt(2, c.getIdEstadoCita());
+            cs.setInt(3, c.getIdPaciente());
+            cs.execute();
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+    }
+    public void agregarDetalleCita(Detallecita dc){
+        
+        try {    
+             
+            cn=con.conectar();
+            cs = cn.prepareCall("{call agregar_detalle_cita(?,?)}");
+            cs.setInt(1, dc.getIdCita());
+            cs.setInt(2, dc.getIdExamen());
+            cs.execute();
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+    }
     public void datosUsuario(Usuario usu){
     
       
@@ -187,7 +182,7 @@ public class Dao {
             cs.setString(1, usu.getUsuario());
             cs.execute();
             rs=cs.getResultSet();
-            if(rs.next()){
+            while(rs.next()){
                 usu.setIdPersona(rs.getInt(1));
                 usu.setPerfil(rs.getString(2));
                 usu.setIdPersona(rs.getInt(3));
@@ -209,7 +204,48 @@ public class Dao {
         
         //return usu;
     }
-    
+    public ArrayList<Cita> citasPaciente(int idPaciente){ 
+        System.out.println("id pac: "+idPaciente);
+             ArrayList<Cita> citas = new ArrayList<Cita>();
+            Cita cita;
+            Persona persona;
+           
+            Estadocita estadoCita ;
+        try {
+            System.out.println("ENTRE TRY");
+            cn=con.conectar();
+            cs = cn.prepareCall("{call sp_MostrarCitas(?)}");
+            cs.setInt(1, idPaciente);
+            cs.execute();
+            rs=cs.getResultSet();
+                              
+            while(rs.next()){ 
+                cita=new Cita();
+                persona = new Persona();
+                estadoCita= new Estadocita();
+                cita.setIdCita(rs.getInt(1));
+                persona.setDni(rs.getString(2));
+                persona.setNombre(rs.getString(3));
+                persona.setApellidos(rs.getString(4));
+                cita.setFecha( rs.getString(5));
+                cita.setHora(rs.getString(6));
+                estadoCita.setEstado(rs.getString(7));
+                cita.setP(persona);
+                cita.setEstadoCita(estadoCita);
+                System.out.println("entro :");
+                System.out.println("id cita "+rs.getInt(1));
+                System.out.println("estado cita: "+rs.getString(7));
+                citas.add(cita);
+                System.out.println("agrego "+rs.getString(7));
+            }
+            cs.close();
+            rs.close();
+            cn.close(); 
+        } catch (SQLException ex) {
+            
+        }
+        return citas;
+    }
     public Consulta listar_Gestion(String querry){
         
         Consulta consulta = new Consulta();

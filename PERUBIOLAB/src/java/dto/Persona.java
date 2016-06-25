@@ -1,3 +1,4 @@
+
 package dto;
 // Generated 16-jun-2016 0:35:22 by Hibernate Tools 4.3.1
 
@@ -83,5 +84,6 @@ public class Persona  implements java.io.Serializable {
 
 
 }
+
 
 

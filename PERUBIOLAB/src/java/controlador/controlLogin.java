@@ -72,7 +72,7 @@ public class controlLogin extends HttpServlet {
                 respuesta.setAttribute("sTipoUsuario",usu.getIdTipoUsuario());
                 System.out.println("valores: ");
                 System.out.println(usu.getNombres() + "\n" + usu.getApellidos());
-                
+                respuesta.setAttribute("sIdPersona", usu.getIdPersona());
                 switch (usu.getPerfil()) {
                     case "administrador":
                         System.out.println("entro admin");
