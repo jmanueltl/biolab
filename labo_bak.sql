@@ -28,11 +28,11 @@ CREATE TABLE `cita` (
   `idTecnologo` int(11) DEFAULT NULL,
   `idPaciente` int(11) DEFAULT NULL,
   PRIMARY KEY (`idCita`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=21 DEFAULT CHARSET=latin1;
 
 /*Data for the table `cita` */
 
-insert  into `cita`(`idCita`,`fechaHora`,`idEstadoCita`,`idTecnico`,`idTecnologo`,`idPaciente`) values (1,'2016-06-15 01:02:00',1,NULL,NULL,3),(2,'2016-07-01 01:02:00',1,NULL,NULL,3);
+insert  into `cita`(`idCita`,`fechaHora`,`idEstadoCita`,`idTecnico`,`idTecnologo`,`idPaciente`) values (1,'2016-06-15 01:02:00',1,NULL,NULL,5),(18,'2016-06-30 20:10:00',1,NULL,NULL,15),(20,'2016-06-23 05:02:00',1,NULL,NULL,18);
 
 /*Table structure for table `detallecita` */
 
@@ -44,11 +44,11 @@ CREATE TABLE `detallecita` (
   `idExamen` int(11) DEFAULT NULL,
   `idResultado` int(11) DEFAULT NULL,
   PRIMARY KEY (`idDetalleCita`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=29 DEFAULT CHARSET=latin1;
 
 /*Data for the table `detallecita` */
 
-insert  into `detallecita`(`idDetalleCita`,`idCita`,`idExamen`,`idResultado`) values (1,2,2,NULL),(2,2,1,NULL);
+insert  into `detallecita`(`idDetalleCita`,`idCita`,`idExamen`,`idResultado`) values (1,2,2,NULL),(2,2,1,NULL),(23,18,3,NULL),(28,20,3,NULL);
 
 /*Table structure for table `estadocita` */
 
@@ -58,11 +58,11 @@ CREATE TABLE `estadocita` (
   `idEstadoCita` int(11) NOT NULL AUTO_INCREMENT,
   `estado` varchar(20) DEFAULT NULL,
   PRIMARY KEY (`idEstadoCita`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=7 DEFAULT CHARSET=latin1;
 
 /*Data for the table `estadocita` */
 
-insert  into `estadocita`(`idEstadoCita`,`estado`) values (1,'espera');
+insert  into `estadocita`(`idEstadoCita`,`estado`) values (1,'En espera de confirm'),(2,'Confirmado'),(3,'Asignado a técnico'),(4,'Asignado a tecnólogo'),(5,'Atendido - A la espe'),(6,'Finalizado - Resulta');
 
 /*Table structure for table `examen` */
 
@@ -108,11 +108,11 @@ CREATE TABLE `persona` (
   `telefono` varchar(45) DEFAULT NULL,
   `correo` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idPersona`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=19 DEFAULT CHARSET=latin1;
 
 /*Data for the table `persona` */
 
-insert  into `persona`(`idPersona`,`dni`,`nombres`,`apellidos`,`sexo`,`telefono`,`correo`) values (1,'76358935','jack','naquib','hombre','4520015','jackechevarria@gmail.com'),(2,'76358936','yersy','aliaga','hombre','4520016','yersyaliaga@gmail.com'),(3,'76358937','maria','lara','mujer','4520017','mariaLara@gmail.com'),(4,'76358938','josefina','ramirez',NULL,NULL,'josefina@hotmail.com'),(5,'76358990','antony','villacorta','hombre','4520017','antonyvilla@gmail.com'),(6,'76358991','aldo','chavez','hombre','4520018','aldochavez@gmail.com'),(7,'76358935','jack','naquib','hombre','4520015','jacknaquib@gmail.com');
+insert  into `persona`(`idPersona`,`dni`,`nombres`,`apellidos`,`sexo`,`telefono`,`correo`) values (1,'76358935','jack','naquib','hombre','4520015','jackechevarria@gmail.com'),(2,'76358936','yersy','aliaga','hombre','4520016','yersyaliaga@gmail.com'),(3,'76358937','maria','lara','mujer','4520017','mariaLara@gmail.com'),(4,'76358938','josefina','ramirez',NULL,NULL,'josefina@hotmail.com'),(5,'76358990','antony','villacorta','hombre','4520017','antonyvilla@gmail.com'),(6,'76358991','aldo','chavez','hombre','4520018','aldochavez@gmail.com'),(7,'76358935','jack','naquib','hombre','4520015','jacknaquib@gmail.com'),(15,'76358987','david','dave','hombre','4520017','jacknaquib@gmail.com'),(18,'76587854','tipis','mana','hombre','4524521','latipis@gmail.com');
 
 /*Table structure for table `resultado` */
 
@@ -167,11 +167,47 @@ CREATE TABLE `usuario` (
   `idTipoUsuario` int(11) DEFAULT NULL,
   `idPersona` int(11) DEFAULT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuario` */
 
 insert  into `usuario`(`idUsuario`,`login`,`clave`,`idTipoUsuario`,`idPersona`) values (2,'admin','admin',1,1),(3,'secre','secre',2,2),(4,'tecni','tecni',3,3),(5,'tecno','tecno',4,4),(6,'usu1','usu1',5,5),(7,'usu2','usu2',5,6);
+
+/* Procedure structure for procedure `agregar_cita` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `agregar_cita` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `agregar_cita`(in fecha datetime, in idec int, in idpac int)
+BEGIN
+	insert into cita(fechaHora, idEstadoCita, idPaciente) values (fecha, idec,idpac);
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `agregar_detalle_cita` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `agregar_detalle_cita` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `agregar_detalle_cita`(IN idCi int, in idEx int)
+BEGIN
+	insert into detallecita(idCita, idExamen) values (idCi, idEx);
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `datos_paciente` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `datos_paciente` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `datos_paciente`(IN dato VARCHAR(30))
+BEGIN
+	select * from persona where dni=dato;
+    END */$$
+DELIMITER ;
 
 /* Procedure structure for procedure `datos_usuario` */
 
@@ -185,6 +221,19 @@ BEGIN
 	LEFT JOIN persona p ON u.idPersona=p.idPersona 
 	LEFT JOIN tipoUsuario tu ON tu.idTipoUsuario = u.idTipoUsuario
 	WHERE u.login = nombre;
+    
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `existe_paciente` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `existe_paciente` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `existe_paciente`(IN dato VARCHAR(30))
+BEGIN
+	select idPersona from persona where dni = dato;
     
 END */$$
 DELIMITER ;
@@ -208,6 +257,50 @@ BEGIN
 	WHERE STRCMP(login,nombre)=0;
     
 END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `registrar_persona` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `registrar_persona` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `registrar_persona`(IN dni VARCHAR(30), in nombres varchar(30), in apellidos varchar(30), 
+						in sexo varchar(30), in telefono varchar(30), in correo varchar(30))
+BEGIN
+	insert into persona values (null,dni,nombres,apellidos,sexo,telefono,correo);
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `sp_MostrarCitas` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `sp_MostrarCitas` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `sp_MostrarCitas`(in idPacienteEntrada int)
+BEGIN
+	SELECT CI.IDCITA,P.DNI,P.NOMBRES,P.APELLIDOS,
+DATE_FORMAT(CI.fechahora,'%d/%m/%Y')
+,DATE_FORMAT(CI.fechahora,'%H:%i:%s') 
+,EC.ESTADO
+FROM PERSONA P 
+LEFT JOIN CITA CI ON P.idpersona = CI.IDPACIENTE
+LEFT JOIN ESTADOCITA EC ON  CI.IDCITA= EC.IDESTADOCITA 
+WHERE CI.IDPACIENTE = idPacienteEntrada ;
+    END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `ultima_cita` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `ultima_cita` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `ultima_cita`()
+BEGIN
+	select idCita from cita order by idCita desc limit 1;
+    END */$$
 DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
