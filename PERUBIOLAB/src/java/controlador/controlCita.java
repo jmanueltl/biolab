@@ -6,6 +6,10 @@
 package controlador;
 
 
+import dao.Dao;
+import dto.Cita;
+import dto.Detallecita;
+import dto.Persona;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.text.ParseException;
@@ -26,7 +30,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 @WebServlet(name = "controlCita", urlPatterns = {"/controlCita"})
 public class controlCita extends HttpServlet {
-
+    Dao dao = new Dao();
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
      * methods.
@@ -76,9 +80,10 @@ public class controlCita extends HttpServlet {
     }
     private void reservarCita(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
+        
         String nombres = request.getParameter("nombre");
         String apellidos = request.getParameter("apellidos");
-        int dni = Integer.parseInt(request.getParameter("dni"));
+        String dni =request.getParameter("dni");
         int edad = Integer.parseInt(request.getParameter("edad"));
         String telefono = request.getParameter("telefono");
         String correo = request.getParameter("correo");
@@ -88,12 +93,44 @@ public class controlCita extends HttpServlet {
         String hora = request.getParameter("hora");
         String fechahora= fecha+" "+hora;
         System.out.println(fechahora);
-        Date dfechahora=castStringDate(fechahora);
-    
+        //Date dfechahora=castStringDate(fechahora);
+        int existe_paciente=0;
+        Persona paciente= new Persona();
+        Cita cita= new Cita();
+        Detallecita dc= new Detallecita();
         System.out.println("dni: "+dni);
-        //validando si ya exitste paciente en la BD
-       
         
+        //registrar al paciente
+        paciente.setDni(dni);
+        dao.datosPaciente(paciente);
+        if(paciente.getNombre()==null){
+            paciente.setDni(dni);
+            paciente.setNombre(nombres);
+            paciente.setApellidos(apellidos);
+            paciente.setSexo(sexo);
+            paciente.setTelefono(telefono);
+            paciente.setCorreo(correo);
+            
+            dao.registrarPersona(paciente);
+            paciente.setIdPaciente(dao.existePaciente(dni));
+        }
+        System.out.println("id paciente: "+paciente.getIdPaciente());
+        
+        //registrar la cita
+        cita.setFechaHora(fechahora);
+        cita.setIdEstadoCita(1);
+        cita.setIdPaciente(paciente.getIdPaciente());
+        
+        dao.agregarCita(cita);
+        cita.setIdCita(dao.ultimaCita());
+        System.out.println("id cita: "+cita.getIdCita());
+        
+        //agregar detalle cita
+        for(int i =0 ; i<tipoExamen.length;i++){
+                dc.setIdCita(cita.getIdCita());
+                dc.setIdExamen(Integer.parseInt(tipoExamen[i]));
+                dao.agregarDetalleCita(dc);
+            }
         
         response.sendRedirect("inicio.jsp");
     }

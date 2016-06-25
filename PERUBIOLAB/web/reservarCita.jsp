@@ -28,22 +28,22 @@
                 <form action="<%=request.getContextPath()%>/controlCita?action=1" class="form-horizontal" id="registrocita"  method="POST">
 
                     Nombre: <span class="superindice">*</span><br>
-                    <input class="input" name="nombre" type="text" ><br><br>
+                    <input class="input" name="nombre" type="text" required ><br><br>
 
                     Apellidos: <span class="superindice">*</span><br>
-                    <input class="input" name="apellidos" type="text" ><br><br>
+                    <input class="input" name="apellidos" type="text" required><br><br>
 
                     DNI: <span class="superindice">*</span><br>
-                    <input class="input" name="dni" type="text" ><br><br>
+                    <input class="input" name="dni" type="text"  required><br><br>
 
                     Edad:<br>
-                    <input class="input" name="edad" type="text"><br><br>
+                    <input class="input" name="edad" type="text" required><br><br>
 
                     Telf/Movil: <span class="superindice">*</span><br>
-                    <input class="input" name="telefono" type="text" ><br><br>
+                    <input class="input" name="telefono" type="text" required><br><br>
 
                     Correo: <span class="superindice">*</span><br>
-                    <input class="input" name="correo" type="text" ><br><br>
+                    <input class="input" name="correo" type="email" required><br><br>
 
                     Sexo: <span class="superindice">*</span><br>
                     <span style="position:relative;left:20%;"> <input type="radio" name="sexo" value="hombre" >Hombre </span>
@@ -52,7 +52,7 @@
 
                     Examenes: <span class="superindice">*</span><br>
                     
-                    <select name="tipoExamen" size="4" multiple="multiple">
+                    <select name="tipoExamen" size="4" multiple="multiple" required>
                         <option value="3">Bioquimico</option>
                         <option value="2">Coagulacion</option>
                         <option value="1">Hematologico</option>
@@ -64,10 +64,10 @@
 
                     Fecha: <span class="superindice">*</span> <br>
 
-                    <input  name="fecha" class="input-date" type="date" ><br>
+                    <input  name="fecha" class="input-date" type="date" required><br>
 
                     <div style="position:relative;left:250px;top:-45px;">Hora: <span class="superindice">*</span><br>   
-                        <input  name="hora" class="input-date" type="time" >
+                        <input  name="hora" class="input-date" type="time" required>
                     </div>
 
                    

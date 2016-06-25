@@ -13,6 +13,9 @@ import java.sql.ResultSetMetaData;
 import java.sql.SQLException;
 import java.sql.Types;
 import dto.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import util.Utilitarios;
 
 /**
@@ -27,6 +30,7 @@ public class Dao {
     private CallableStatement cs;
     private PreparedStatement ps;
     private Utilitarios util = new Utilitarios();
+    
     
     public int validar_Usuario(String usuario, String password){
         
@@ -50,7 +54,129 @@ public class Dao {
         
         return existe;
     }
-    
+    public int existePaciente(String dni){
+        
+        int existe=0;
+        
+        try {    
+        	
+            cn=con.conectar();
+            cs = cn.prepareCall("{call existe_paciente(?)}");
+            cs.setString(1, dni);
+            cs.execute();
+            existe=cs.getInt(1);
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+        
+        return existe;
+    }
+    public int  ultimaCita(){
+        System.out.println("metodo ultimaCita");
+        int idCita=0;
+        try {    
+        	
+            cn=con.conectar();
+            cs = cn.prepareCall("{call ultima_cita()}");
+            cs.execute();
+            rs=cs.getResultSet();
+            if(rs.next()){
+            idCita=rs.getInt(1);
+            }
+            System.out.println("uno id: "+idCita);
+            rs.close();
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        return idCita;
+    }
+   
+    public void registrarPersona(Persona p){
+        try {    
+        	
+            cn=con.conectar();
+            cs = cn.prepareCall("{call registrar_persona(?,?,?,?,?,?)}");
+            cs.setString(1, p.getDni());
+            cs.setString(2, p.getNombre());
+            cs.setString(3, p.getApellidos());
+            cs.setString(4, p.getSexo());
+            cs.setString(5, p.getTelefono());
+            cs.setString(6, p.getCorreo());
+            cs.execute();
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+    }
+   
+    public void agregarCita(Cita c){
+        
+        try {    
+             
+            cn=con.conectar();
+            cs = cn.prepareCall("{call agregar_cita(?,?,?)}");
+            cs.setString(1, c.getFechaHora());
+            cs.setInt(2, c.getIdEstadoCita());
+            cs.setInt(3, c.getIdPaciente());
+            cs.execute();
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+    }
+     public void agregarDetalleCita(Detallecita dc){
+        
+        try {    
+             
+            cn=con.conectar();
+            cs = cn.prepareCall("{call agregar_detalle_cita(?,?)}");
+            cs.setInt(1, dc.getIdCita());
+            cs.setInt(2, dc.getIdExamen());
+            cs.execute();
+            cs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+    }
+    public void datosPaciente(Persona per){
+        try {
+            
+            cn=con.conectar();
+            cs = cn.prepareCall("{call datos_paciente(?)}");
+            cs.setString(1, per.getDni());
+            cs.execute();
+            rs=cs.getResultSet();
+            if(rs.next()){
+                per.setIdPaciente(rs.getInt(1));
+                per.setDni(rs.getString(2));
+                per.setNombre(rs.getString(3));
+                per.setApellidos(rs.getString(4));
+                per.setSexo(rs.getString(5));
+                per.setTelefono(rs.getString(6));
+                per.setCorreo(rs.getString(7));
+                
+            }
+            cs.close();
+            rs.close();
+            cn.close();
+            
+        } catch (SQLException ex) {
+            
+        }
+        
+    }
     public void datosUsuario(Usuario usu){
     
       
@@ -61,7 +187,7 @@ public class Dao {
             cs.setString(1, usu.getUsuario());
             cs.execute();
             rs=cs.getResultSet();
-            while(rs.next()){
+            if(rs.next()){
                 usu.setIdPersona(rs.getInt(1));
                 usu.setPerfil(rs.getString(2));
                 usu.setIdPersona(rs.getInt(3));
