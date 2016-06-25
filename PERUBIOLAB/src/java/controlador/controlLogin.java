@@ -5,7 +5,8 @@
  */
 package controlador;
 
-
+import dao.Dao;
+import dto.Usuario;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -15,13 +16,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-
 /**
  *
  * @author jack
  */
 @WebServlet(name = "controlLogin", urlPatterns = {"/controlLogin"})
 public class controlLogin extends HttpServlet {
+
+    Dao dao = new Dao();
+    Usuario usu = new Usuario();
 
     /**
      * Processes requests for both HTTP <code>GET</code> and <code>POST</code>
@@ -53,8 +56,50 @@ public class controlLogin extends HttpServlet {
 
         String login = request.getParameter("login");
         String clave = request.getParameter("clave");
-
-
+        usu.setUsuario(login);
+        usu.setPassword(clave);
+        int exito = dao.validar_Usuario(login, clave);
+        //System.out.println("valor: "+exito);
+        switch (exito) {
+            case 0:
+                System.out.println("Usuario no registrado");
+                response.sendRedirect("login.jsp");
+                break;
+            case 1:
+                
+                dao.datosUsuario(usu);
+                respuesta.setAttribute("sLogin", login);
+                respuesta.setAttribute("sTipoUsuario",usu.getIdTipoUsuario());
+                System.out.println("valores: ");
+                System.out.println(usu.getNombres() + "\n" + usu.getApellidos());
+                
+                switch (usu.getPerfil()) {
+                    case "administrador":
+                        System.out.println("entro admin");
+                        response.sendRedirect("inicioTrabajador.jsp");
+                        break;
+                    case "secretaria":
+                        break;
+                    case "tecnico":
+                        break;
+                    case "tecnologo":
+                        break;
+                    case "cliente":
+                        System.out.println("entro cliente");
+                        response.sendRedirect("inicioCliente.jsp");
+                        System.out.println("ccccliente");
+                        break;
+                    default:
+                        break;
+                }
+                break;
+            case 2:
+                System.out.println("Contrasenia incorrecta");
+                response.sendRedirect("login.jsp");
+                break;
+            default:
+                break;
+        }
     }
 
     private void cerrarSesion(HttpServletRequest request, HttpServletResponse response)
