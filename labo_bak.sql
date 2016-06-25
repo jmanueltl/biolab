@@ -95,24 +95,24 @@ CREATE TABLE `muestra` (
 
 /*Data for the table `muestra` */
 
-/*Table structure for table `paciente` */
+/*Table structure for table `persona` */
 
-DROP TABLE IF EXISTS `paciente`;
+DROP TABLE IF EXISTS `persona`;
 
-CREATE TABLE `paciente` (
-  `idPaciente` int(11) NOT NULL AUTO_INCREMENT,
-  `dni` int(11) DEFAULT NULL,
-  `nombre` varchar(45) DEFAULT NULL,
+CREATE TABLE `persona` (
+  `idPersona` int(11) NOT NULL AUTO_INCREMENT,
+  `dni` varchar(45) DEFAULT NULL,
+  `nombres` varchar(45) DEFAULT NULL,
   `apellidos` varchar(45) DEFAULT NULL,
   `sexo` varchar(45) DEFAULT NULL,
   `telefono` varchar(45) DEFAULT NULL,
   `correo` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idPaciente`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=latin1;
+  PRIMARY KEY (`idPersona`)
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
 
-/*Data for the table `paciente` */
+/*Data for the table `persona` */
 
-insert  into `paciente`(`idPaciente`,`dni`,`nombre`,`apellidos`,`sexo`,`telefono`,`correo`) values (1,76358990,'antony','villacorta','hombre','4520017','antonyvilla@gmail.com'),(2,76358991,'aldo','chavez','hombre','4520018','aldochavez@gmail.com'),(3,76358935,'jack','naquib','hombre','4520015','jacknaquib@gmail.com');
+insert  into `persona`(`idPersona`,`dni`,`nombres`,`apellidos`,`sexo`,`telefono`,`correo`) values (1,'76358935','jack','naquib','hombre','4520015','jackechevarria@gmail.com'),(2,'76358936','yersy','aliaga','hombre','4520016','yersyaliaga@gmail.com'),(3,'76358937','maria','lara','mujer','4520017','mariaLara@gmail.com'),(4,'76358938','josefina','ramirez',NULL,NULL,'josefina@hotmail.com'),(5,'76358990','antony','villacorta','hombre','4520017','antonyvilla@gmail.com'),(6,'76358991','aldo','chavez','hombre','4520018','aldochavez@gmail.com'),(7,'76358935','jack','naquib','hombre','4520015','jacknaquib@gmail.com');
 
 /*Table structure for table `resultado` */
 
@@ -148,32 +148,13 @@ DROP TABLE IF EXISTS `tipousuario`;
 
 CREATE TABLE `tipousuario` (
   `idTipoUsuario` int(11) NOT NULL AUTO_INCREMENT,
-  `cargo` varchar(45) DEFAULT NULL,
+  `perfil` varchar(45) DEFAULT NULL,
   PRIMARY KEY (`idTipoUsuario`)
 ) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
 
 /*Data for the table `tipousuario` */
 
-insert  into `tipousuario`(`idTipoUsuario`,`cargo`) values (1,'administrador'),(2,'secretaria'),(3,'tecnico'),(4,'tecnologo'),(5,'cliente');
-
-/*Table structure for table `trabajador` */
-
-DROP TABLE IF EXISTS `trabajador`;
-
-CREATE TABLE `trabajador` (
-  `idTrabajador` int(11) NOT NULL AUTO_INCREMENT,
-  `dni` varchar(45) DEFAULT NULL,
-  `nombres` varchar(45) DEFAULT NULL,
-  `apellidos` varchar(45) DEFAULT NULL,
-  `sexo` varchar(45) DEFAULT NULL,
-  `telefono` varchar(45) DEFAULT NULL,
-  `correo` varchar(45) DEFAULT NULL,
-  PRIMARY KEY (`idTrabajador`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
-
-/*Data for the table `trabajador` */
-
-insert  into `trabajador`(`idTrabajador`,`dni`,`nombres`,`apellidos`,`sexo`,`telefono`,`correo`) values (1,'76358935','jack','naquib','hombre','4520015','jackechevarria@gmail.com'),(2,'76358936','yersy','aliaga','hombre','4520016','yersyaliaga@gmail.com'),(3,'76358937','maria','lara','mujer','4520017','mariaLara@gmail.com'),(4,'76358938','josefina','ramirez',NULL,NULL,'josefina@hotmail.com');
+insert  into `tipousuario`(`idTipoUsuario`,`perfil`) values (1,'administrador'),(2,'secretaria'),(3,'tecnico'),(4,'tecnologo'),(5,'cliente');
 
 /*Table structure for table `usuario` */
 
@@ -184,14 +165,50 @@ CREATE TABLE `usuario` (
   `login` varchar(45) DEFAULT NULL,
   `clave` varchar(45) DEFAULT NULL,
   `idTipoUsuario` int(11) DEFAULT NULL,
-  `idPaciente` int(11) DEFAULT NULL,
-  `idTrabajador` int(11) DEFAULT NULL,
+  `idPersona` int(11) DEFAULT NULL,
   PRIMARY KEY (`idUsuario`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=9 DEFAULT CHARSET=latin1;
 
 /*Data for the table `usuario` */
 
-insert  into `usuario`(`idUsuario`,`login`,`clave`,`idTipoUsuario`,`idPaciente`,`idTrabajador`) values (2,'admin','admin',1,NULL,1),(3,'secre','secre',2,NULL,2),(4,'tecni','tecni',3,NULL,3),(5,'tecno','tecno',4,NULL,4),(6,'usu1','usu1',5,1,NULL),(7,'usu2','usu2',5,2,NULL);
+insert  into `usuario`(`idUsuario`,`login`,`clave`,`idTipoUsuario`,`idPersona`) values (2,'admin','admin',1,1),(3,'secre','secre',2,2),(4,'tecni','tecni',3,3),(5,'tecno','tecno',4,4),(6,'usu1','usu1',5,5),(7,'usu2','usu2',5,6);
+
+/* Procedure structure for procedure `datos_usuario` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `datos_usuario` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `datos_usuario`(IN nombre VARCHAR(30))
+BEGIN
+	SELECT u.idUsuario,tu.perfil,p.*,tu.idTipoUsuario FROM usuario u
+	LEFT JOIN persona p ON u.idPersona=p.idPersona 
+	LEFT JOIN tipoUsuario tu ON tu.idTipoUsuario = u.idTipoUsuario
+	WHERE u.login = nombre;
+    
+END */$$
+DELIMITER ;
+
+/* Procedure structure for procedure `login_usuario` */
+
+/*!50003 DROP PROCEDURE IF EXISTS  `login_usuario` */;
+
+DELIMITER $$
+
+/*!50003 CREATE DEFINER=`root`@`localhost` PROCEDURE `login_usuario`(IN nombre varchar(30), 
+				IN passw CHAR(30),
+				OUT existe INT)
+BEGIN
+	SET existe=0;
+	SELECT 
+    case when STRCMP(login,nombre)=0 and STRCMP(clave,passw)=0 then 1
+		when STRCMP(login,nombre)=0 and STRCMP(clave,passw)=1 then 2 end as user
+    into existe 
+	FROM usuario
+	WHERE STRCMP(login,nombre)=0;
+    
+END */$$
+DELIMITER ;
 
 /*!40101 SET SQL_MODE=@OLD_SQL_MODE */;
 /*!40014 SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS */;
